@@ -1,3 +1,17 @@
 micronaut:
-  application:
-    name: micronautBoilerplate
+  security:
+    authentication: bearer
+    token:
+      jwt:
+        signatures:
+          secret:
+            generator:
+              secret: pleaseChangeThisSecretForANewOne1
+---
+micronaut:
+  security:
+    token:
+      jwt:
+        generator:
+          refresh-token:
+            secret: pleaseChangeThisSecretForANewOne1
