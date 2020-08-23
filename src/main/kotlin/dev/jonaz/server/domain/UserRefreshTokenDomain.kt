@@ -1,10 +1,10 @@
-package dev.jonaz.server.tables
+package dev.jonaz.server.domain
 
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.`java-time`.datetime
 import java.time.LocalDateTime
 
-object UserRefreshTokenTable : Table("user_refresh_tokens") {
+object UserRefreshTokenDomain : Table("user_refresh_tokens") {
     val id = integer("id").autoIncrement()
 
     val user = integer("user")

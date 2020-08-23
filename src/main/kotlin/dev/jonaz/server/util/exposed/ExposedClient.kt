@@ -1,8 +1,8 @@
 package dev.jonaz.server.util.exposed
 
 import com.zaxxer.hikari.HikariDataSource
-import dev.jonaz.server.tables.UserRefreshTokenTable
-import dev.jonaz.server.tables.UserTable
+import dev.jonaz.server.domain.UserRefreshTokenDomain
+import dev.jonaz.server.domain.UserDomain
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -17,8 +17,8 @@ class ExposedClient(
 
     private fun createSchema() = transaction {
         SchemaUtils.create(
-                UserTable,
-                UserRefreshTokenTable
+                UserDomain,
+                UserRefreshTokenDomain
         )
     }
 }

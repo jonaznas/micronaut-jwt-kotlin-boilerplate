@@ -2,7 +2,7 @@ package dev.jonaz.server.security.jwt
 
 import dev.jonaz.server.components.user.UserAccount
 import dev.jonaz.server.components.user.UserRefreshToken
-import dev.jonaz.server.tables.UserRefreshTokenTable
+import dev.jonaz.server.domain.UserRefreshTokenDomain
 import io.micronaut.runtime.event.annotation.EventListener
 import io.micronaut.security.authentication.UserDetails
 import io.micronaut.security.errors.IssuingAnAccessTokenErrorCode
@@ -18,7 +18,7 @@ import javax.inject.Singleton
 
 @Singleton
 class CustomRefreshTokenPersistence : RefreshTokenPersistence {
-    private val table = UserRefreshTokenTable
+    private val table = UserRefreshTokenDomain
 
     @EventListener
     override fun persistToken(event: RefreshTokenGeneratedEvent) {

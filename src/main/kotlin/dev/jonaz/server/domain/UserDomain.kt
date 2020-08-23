@@ -1,8 +1,8 @@
-package dev.jonaz.server.tables
+package dev.jonaz.server.domain
 
 import org.jetbrains.exposed.sql.Table
 
-object UserTable : Table("user_list") {
+object UserDomain : Table("user_list") {
     val id = integer("id").autoIncrement()
 
     val name = varchar("name", 256)
