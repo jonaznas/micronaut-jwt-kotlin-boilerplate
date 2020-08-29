@@ -11,10 +11,8 @@ import javax.inject.Singleton
 @Singleton
 class UserPasswordAuthenticationProvider : AuthenticationProvider {
 
-    override fun authenticate(httpRequest: HttpRequest<*>?, authenticationRequest: AuthenticationRequest<*, *>?): Publisher<AuthenticationResponse> {
+    override fun authenticate(httpRequest: HttpRequest<*>?, authenticationRequest: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse> {
         return Flowable.create({ emitter: FlowableEmitter<AuthenticationResponse> ->
-
-            if(authenticationRequest == null) return@create
 
             if (authenticationRequest.identity == "sherlock" && authenticationRequest.secret == "password") {
                 val userDetails = UserDetails(

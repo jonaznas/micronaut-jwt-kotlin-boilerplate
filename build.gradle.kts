@@ -18,7 +18,7 @@ plugins {
 
 version = "0.1"
 group = "dev.jonaz.server"
-application.mainClassName = "$group/ApplicationKt"
+application.mainClassName = "$group/Application"
 
 repositories {
     mavenCentral()
@@ -66,9 +66,7 @@ allOpen {
 kapt {
     arguments {
         arg("micronaut.processing.incremental", true)
-        arg("micronaut.processing.annotations", "dev.jonaz.server.*")
-        arg("micronaut.processing.group", "dev.jonaz.server")
-        arg("micronaut.processing.module", "micronautBoilerplate")
+        arg("micronaut.processing.annotations", "dev.jonaz.*")
     }
 }
 
