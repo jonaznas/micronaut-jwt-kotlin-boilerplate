@@ -9,12 +9,11 @@ import io.micronaut.runtime.server.event.ServerStartupEvent
 @Singleton
 class ApplicationStartup : ApplicationEventListener<ServerStartupEvent> {
 
-    override fun onApplicationEvent(event: ServerStartupEvent) {
-        ApplicationServer(event.source.environment).setup()
+    override fun onApplicationEvent(event: ServerStartupEvent?) {
+        ApplicationServer(event?.source?.environment).setup()
 
         HikariSourceConfig.createDataSource().let {
             ExposedClient(it).connect()
         }
     }
 }
-

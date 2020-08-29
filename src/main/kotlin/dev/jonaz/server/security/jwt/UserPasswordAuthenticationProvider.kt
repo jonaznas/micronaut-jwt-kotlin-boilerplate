@@ -9,16 +9,23 @@ import org.reactivestreams.Publisher
 import javax.inject.Singleton
 
 @Singleton
-class AuthenticationProviderUserPassword : AuthenticationProvider {
+class UserPasswordAuthenticationProvider : AuthenticationProvider {
 
     override fun authenticate(httpRequest: HttpRequest<*>?, authenticationRequest: AuthenticationRequest<*, *>?): Publisher<AuthenticationResponse> {
-        val identity = authenticationRequest?.identity ?: ""
-        val secret = authenticationRequest?.secret ?: ""
-
         return Flowable.create({ emitter: FlowableEmitter<AuthenticationResponse> ->
 
-            if (identity.equals("sherlock") && secret.equals("password")) {
-                val userDetails = UserDetails(identity.toString(), ArrayList())
+            if(authenticationRequest == null) return@create
+
+            if (authenticationRequest.identity == "sherlock" && authenticationRequest.secret == "password") {
+                val userDetails = UserDetails(
+                        authenticationRequest.identity as String,
+                        listOf("ROLE_USER"),
+                        UserDetailsAttributes(5).map()
+                )
+
+                val attributes = mapOf("user" to 5)
+                userDetails.setAttributes(attributes)
+
                 emitter.onNext(userDetails)
                 emitter.onComplete()
             } else {

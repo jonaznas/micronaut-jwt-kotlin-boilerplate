@@ -5,15 +5,13 @@ import dev.jonaz.server.domain.UserRefreshTokenDomain
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class UserRefreshToken {
+object UserRefreshToken {
 
-    companion object {
-        private val table = UserRefreshTokenDomain
+    private val domain = UserRefreshTokenDomain
 
-        fun get(refreshToken: String) = transaction {
-            table.select { table.refreshToken eq refreshToken }.map {
-                RefreshTokenModel(it[table.refreshToken], it[table.user], it[table.revoked])
-            }
+    fun get(refreshToken: String) = transaction {
+        domain.select { domain.refreshToken eq refreshToken }.map {
+            RefreshTokenModel(it[domain.refreshToken], it[domain.user], it[domain.revoked])
         }
     }
 }

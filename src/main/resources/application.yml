@@ -6,7 +6,7 @@ micronaut:
         signatures:
           secret:
             generator:
-              secret: pleaseChangeThisSecretForANewOne1
+              secret: pleaseChangeThisSecretForANewOne
 ---
 micronaut:
   security:
@@ -14,4 +14,4 @@ micronaut:
       jwt:
         generator:
           refresh-token:
-            secret: pleaseChangeThisSecretForANewOne1
+            secret: pleaseChangeThisSecretForANewOne

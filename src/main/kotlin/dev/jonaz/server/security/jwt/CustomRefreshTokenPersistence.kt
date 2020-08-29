@@ -13,6 +13,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.FlowableEmitter
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.transactions.transaction
 import org.reactivestreams.Publisher
 import javax.inject.Singleton
 
@@ -21,7 +22,7 @@ class CustomRefreshTokenPersistence : RefreshTokenPersistence {
     private val table = UserRefreshTokenDomain
 
     @EventListener
-    override fun persistToken(event: RefreshTokenGeneratedEvent) {
+    override fun persistToken(event: RefreshTokenGeneratedEvent?) {
         when (null) {
             event -> return
             event.refreshToken -> return
@@ -29,13 +30,15 @@ class CustomRefreshTokenPersistence : RefreshTokenPersistence {
             event.userDetails.username -> return
         }
 
-        val payload = event.refreshToken
+        val payload = event?.refreshToken ?: return
         val user = UserAccount.get(event.userDetails.username).get(0).id
 
-        table.insert {
-            it[table.refreshToken] = payload
-            it[table.user] = user
-            it[table.revoked] = false
+        transaction {
+            table.insert {
+                it[table.refreshToken] = payload
+                it[table.user] = user
+                it[table.revoked] = false
+            }
         }
     }
 
@@ -50,7 +53,7 @@ class CustomRefreshTokenPersistence : RefreshTokenPersistence {
 
                 else                 -> {
                     val userId = token.get(0).user.toString()
-                    val userDetails = UserDetails(userId, listOf())
+                    val userDetails = UserDetails(userId, listOf(), UserDetailsAttributes(5).map())
 
                     emitter.onNext(userDetails)
                     emitter.onComplete()

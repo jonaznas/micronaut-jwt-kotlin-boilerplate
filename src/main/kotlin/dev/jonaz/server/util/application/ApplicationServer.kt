@@ -5,7 +5,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class ApplicationServer(
-        private val env: Environment
+        private val env: Environment?
 ) {
 
     companion object {
@@ -15,6 +15,6 @@ class ApplicationServer(
 
     fun setup() {
         logger = LoggerFactory.getLogger(this::class.java)
-        environment = env
+        if (env != null) environment = env
     }
 }
