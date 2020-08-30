@@ -1,4 +1,4 @@
 FROM openjdk:14-alpine
-COPY build/libs/micronaut-boilerplate-*-all.jar micronaut-boilerplate.jar
+COPY build/libs/micronaut-boilerplate-*-all.jar micronaut-jwt-kotlin-boilerplate.jar
 EXPOSE 8080
-CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "micronaut-boilerplate.jar"]
+CMD ["java", "-Dcom.sun.management.jmxremote", "-Xmx128m", "-jar", "micronaut-jwt-kotlin-boilerplate.jar"]
