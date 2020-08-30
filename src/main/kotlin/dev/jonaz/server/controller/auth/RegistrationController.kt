@@ -1,6 +1,6 @@
 package dev.jonaz.server.controller.auth
 
-import dev.jonaz.server.components.user.UserRegistration
+/*import dev.jonaz.server.components.user.UserRegistration
 import io.micronaut.context.annotation.Parameter
 import io.micronaut.http.MediaType
 import io.micronaut.http.annotation.Consumes
@@ -26,4 +26,4 @@ class RegistrationController {
             val message = message
         }
     }
-}
+}*/

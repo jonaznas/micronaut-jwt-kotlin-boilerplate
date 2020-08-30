@@ -1,19 +1,26 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
-val coroutinesVersion = "1.3.9"
+// Micronaut
 val micronautVersion = "2.0.0"
+
+// Kotlin
+val coroutinesVersion = "1.3.9"
 val kotlinVersion = "1.4.0"
-val exposedVersion = "0.25.1"
 val serializationVersion = "1.0.0-RC"
+
+// Database
+val exposedVersion = "0.25.1"
+val postgresqlVersion = "42.2.2"
+val hikariVersion = "3.2.0"
 
 plugins {
     application
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.0"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.3.72"
     id("com.github.johnrengelman.shadow") version "6.0.0"
-    kotlin("jvm") version "1.4.0"
-    kotlin("kapt") version "1.4.0"
-    kotlin("plugin.serialization") version "1.4.0"
+    kotlin("jvm") version "1.3.72"
+    kotlin("kapt") version "1.3.72"
+    kotlin("plugin.serialization") version "1.3.72"
 }
 
 version = "0.1"
@@ -26,30 +33,52 @@ repositories {
 }
 
 dependencies {
+    /**
+     * Kotlin annotation processor
+     */
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    kapt("io.micronaut.security:micronaut-security-annotations")
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
+    kapt("io.micronaut:micronaut-graal")
 
     compileOnly(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    compileOnly("org.graalvm.nativeimage:svm")
 
-    implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut.security:micronaut-security-jwt")
+    /**
+     * Micronaut
+     */
     implementation(platform("io.micronaut:micronaut-bom:$micronautVersion"))
-    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${coroutinesVersion}")
-    //implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:${serializationVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    implementation("io.micronaut:micronaut-inject")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
     implementation("io.micronaut.kotlin:micronaut-kotlin-runtime")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut:micronaut-http-server-netty")
     implementation("io.micronaut:micronaut-http-client")
 
-    implementation("org.jetbrains.exposed:exposed-core:${exposedVersion}")
-    implementation("org.jetbrains.exposed:exposed-jdbc:${exposedVersion}")
-    implementation("org.jetbrains.exposed:exposed-java-time:${exposedVersion}")
-    implementation("org.postgresql:postgresql:42.2.2")
-    implementation("com.zaxxer:HikariCP:3.2.0")
+    /**
+     * Micronaut security
+     */
+    kapt("io.micronaut.security:micronaut-security-annotations")
+    implementation("io.micronaut.security:micronaut-security-jwt")
+
+    /**
+     * Kotlin
+     */
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+
+    /**
+     * Database
+     */
+    implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+    implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
+    implementation("org.postgresql:postgresql:$postgresqlVersion")
+    implementation("com.zaxxer:HikariCP:$hikariVersion")
 
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")

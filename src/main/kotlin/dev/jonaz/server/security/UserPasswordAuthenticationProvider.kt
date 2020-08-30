@@ -1,5 +1,6 @@
-package dev.jonaz.server.security.jwt
+package dev.jonaz.server.security
 
+import dev.jonaz.server.security.jwt.UserDetailsAttributes
 import io.micronaut.http.HttpRequest
 import io.micronaut.security.authentication.*
 import io.reactivex.BackpressureStrategy

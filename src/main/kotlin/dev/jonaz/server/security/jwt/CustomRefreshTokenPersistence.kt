@@ -12,8 +12,6 @@ import io.micronaut.security.token.refresh.RefreshTokenPersistence
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.FlowableEmitter
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.transactions.transaction
 import org.reactivestreams.Publisher
 import javax.inject.Singleton
 
@@ -33,13 +31,7 @@ class CustomRefreshTokenPersistence : RefreshTokenPersistence {
         val payload = event?.refreshToken ?: return
         val user = UserAccount.get(event.userDetails.username).get(0).id
 
-        transaction {
-            table.insert {
-                it[table.refreshToken] = payload
-                it[table.user] = user
-                it[table.revoked] = false
-            }
-        }
+        UserRefreshToken.save(payload, user)
     }
 
     override fun getUserDetails(refreshToken: String): Publisher<UserDetails> {
