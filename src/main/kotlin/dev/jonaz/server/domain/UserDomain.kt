@@ -7,6 +7,7 @@ object UserDomain : Table("user_list") {
 
     val name = varchar("name", 256)
     val password = text("password")
+    val roles = text("roles")
 
     override val primaryKey = PrimaryKey(id, name = "username")
 }

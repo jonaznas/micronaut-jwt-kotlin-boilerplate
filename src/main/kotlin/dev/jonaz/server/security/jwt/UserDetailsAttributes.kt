@@ -1,9 +1,9 @@
 package dev.jonaz.server.security.jwt
 
 data class UserDetailsAttributes(
-        val user: Int
+        val userId: Int
 ) {
     fun map() = mapOf(
-            "user" to user
+            "userId" to userId
     )
 }

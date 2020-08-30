@@ -1,1 +1,1 @@
-rootProject.name = "micronaut-boilerplate"
+rootProject.name = "micronaut-jwt-kotlin-boilerplate"

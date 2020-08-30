@@ -14,6 +14,9 @@ val exposedVersion = "0.25.1"
 val postgresqlVersion = "42.2.2"
 val hikariVersion = "3.2.0"
 
+// Other
+val bcryptVersion = "0.9.0"
+
 plugins {
     application
     id("org.jetbrains.kotlin.plugin.allopen") version "1.3.72"
@@ -22,6 +25,8 @@ plugins {
     kotlin("kapt") version "1.3.72"
     kotlin("plugin.serialization") version "1.3.72"
 }
+
+val compileKotlin: KotlinCompile by tasks
 
 version = "0.1"
 group = "dev.jonaz.server"
@@ -37,6 +42,7 @@ dependencies {
      * Kotlin annotation processor
      */
     kapt(platform("io.micronaut:micronaut-bom:$micronautVersion"))
+    kapt("io.micronaut.security:micronaut-security-annotations")
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
     kapt("io.micronaut:micronaut-graal")
@@ -58,10 +64,10 @@ dependencies {
     implementation("io.micronaut:micronaut-http-client")
 
     /**
-     * Micronaut security
+     * Security
      */
-    kapt("io.micronaut.security:micronaut-security-annotations")
     implementation("io.micronaut.security:micronaut-security-jwt")
+    implementation("at.favre.lib:bcrypt:$bcryptVersion")
 
     /**
      * Kotlin
@@ -112,4 +118,8 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "1.8"
         javaParameters = true
     }
+}
+
+compileKotlin.kotlinOptions {
+    languageVersion = "1.4"
 }

@@ -2,22 +2,29 @@ package dev.jonaz.server.components.user
 
 import dev.jonaz.server.components.user.model.UserModel
 import dev.jonaz.server.domain.UserDomain
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object UserAccount {
 
-    private val table = UserDomain
+    private val domain = UserDomain
 
     fun get(name: String) = transaction {
-        table.select { table.name eq name }.map {
-            UserModel(it[table.id], it[table.name], it[table.password])
+        domain.select { domain.name eq name }.map {
+            UserModel(it[domain.id], it[domain.name], it[domain.password], decodeRoles(it))
         }
     }
 
     fun get(id: Int) = transaction {
-        table.select { table.id eq id }.map {
-            UserModel(it[table.id], it[table.name], it[table.password])
+        domain.select { domain.id eq id }.map {
+            UserModel(it[domain.id], it[domain.name], it[domain.password], decodeRoles(it))
         }
+    }
+
+    private fun decodeRoles(row: ResultRow): List<String> {
+        return Json.decodeFromString(row[domain.roles])
     }
 }

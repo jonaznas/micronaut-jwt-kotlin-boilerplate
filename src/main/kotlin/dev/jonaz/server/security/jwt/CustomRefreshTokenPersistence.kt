@@ -17,7 +17,6 @@ import javax.inject.Singleton
 
 @Singleton
 class CustomRefreshTokenPersistence : RefreshTokenPersistence {
-    private val table = UserRefreshTokenDomain
 
     @EventListener
     override fun persistToken(event: RefreshTokenGeneratedEvent?) {

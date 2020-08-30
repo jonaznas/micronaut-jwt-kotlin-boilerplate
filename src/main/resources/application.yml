@@ -7,11 +7,6 @@ micronaut:
           secret:
             generator:
               secret: pleaseChangeThisSecretForANewOne
----
-micronaut:
-  security:
-    token:
-      jwt:
         generator:
           refresh-token:
             secret: pleaseChangeThisSecretForANewOne
