@@ -39,5 +39,3 @@ A boilerplate with configured json web tokens + registration system
         Type `classes` into the "Tasks" field
         
          ![type classes](https://i.imgur.com/rJdvft5.png)
-
-4. Type your own jwt and refresh-token secret in `src/main/resources/application.yml`
