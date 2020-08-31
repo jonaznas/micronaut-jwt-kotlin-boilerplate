@@ -3,10 +3,9 @@ micronaut:
     authentication: bearer
     token:
       jwt:
-        signatures:
-          secret:
-            generator:
-              secret: youHaveToChangeThisToANewOne.TrustMe.
+        enabled: true
         generator:
           refresh-token:
-            secret: youHaveToChangeThisToANewOne.TrustMe.
+            enabled: true
+          access-token:
+            expiration: 1200
