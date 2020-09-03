@@ -1,24 +1,21 @@
 package dev.jonaz.server.util.exposed
 
 import com.zaxxer.hikari.HikariDataSource
-import dev.jonaz.server.domain.UserRefreshTokenDomain
-import dev.jonaz.server.domain.UserDomain
 import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.transactions.transaction
+import java.sql.Connection
 
 class ExposedClient(
         private val dataSource: HikariDataSource
 ) {
+    companion object {
+        private lateinit var connection: Connection
+
+        fun closeConnection() = connection.close()
+    }
 
     fun connect() = Database.connect(dataSource).let {
-        this.createSchema()
+        connection = dataSource.connection
+        DatabaseSchema.writeSchema()
     }
 
-    private fun createSchema() = transaction {
-        SchemaUtils.create(
-                UserDomain,
-                UserRefreshTokenDomain
-        )
-    }
 }

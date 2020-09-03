@@ -16,12 +16,13 @@ class HikariSourceConfig {
         private lateinit var config: HikariConfig
 
         fun createDataSource(): HikariDataSource {
-            Class.forName("org.postgresql.Driver")
 
             config = HikariConfig()
             config.jdbcUrl = url
             config.username = dbUser
             config.password = dbPass
+            config.driverClassName = "org.postgresql.Driver"
+            config.maximumPoolSize = 120
 
             return HikariDataSource(config)
         }

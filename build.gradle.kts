@@ -16,6 +16,7 @@ val hikariVersion = "3.2.0"
 
 // Other
 val bcryptVersion = "0.9.0"
+val classIndexVersion = "3.4"
 
 plugins {
     application
@@ -46,6 +47,8 @@ dependencies {
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
     kapt("io.micronaut:micronaut-graal")
+
+    kapt("org.atteo.classindex:classindex:$classIndexVersion")
 
     compileOnly(platform("io.micronaut:micronaut-bom:$micronautVersion"))
     compileOnly("org.graalvm.nativeimage:svm")
@@ -86,6 +89,14 @@ dependencies {
     implementation("org.postgresql:postgresql:$postgresqlVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
 
+    /**
+     * Other
+     */
+    implementation("org.atteo.classindex:classindex:$classIndexVersion")
+
+    /**
+     * Runtime
+     */
     runtimeOnly("ch.qos.logback:logback-classic")
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 }
