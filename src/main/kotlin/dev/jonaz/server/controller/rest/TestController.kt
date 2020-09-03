@@ -1,4 +1,4 @@
-package dev.jonaz.server.controller
+package dev.jonaz.server.controller.rest
 
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Controller

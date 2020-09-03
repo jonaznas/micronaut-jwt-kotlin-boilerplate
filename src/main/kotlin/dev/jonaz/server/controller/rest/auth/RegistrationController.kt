@@ -1,4 +1,4 @@
-package dev.jonaz.server.controller.auth
+package dev.jonaz.server.controller.rest.auth
 
 import dev.jonaz.server.components.user.UserRegistration
 import io.micronaut.context.annotation.Parameter
