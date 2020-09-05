@@ -5,10 +5,13 @@ import dev.jonaz.server.domain.UserRefreshTokenDomain
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object UserRefreshToken {
-
-    private val domain = UserRefreshTokenDomain
+@Singleton
+class UserRefreshToken @Inject constructor(
+        private val domain: UserRefreshTokenDomain
+) {
 
     fun get(refreshToken: String) = transaction {
         domain.select { domain.refreshToken eq refreshToken }.map {

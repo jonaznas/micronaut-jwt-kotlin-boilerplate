@@ -7,9 +7,13 @@ import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object UserAccount {
-    private val domain = UserDomain
+@Singleton
+class UserAccount @Inject constructor(
+        private val domain: UserDomain
+) {
 
     fun get(name: String) = transaction {
         domain.select { domain.name eq name }.map {

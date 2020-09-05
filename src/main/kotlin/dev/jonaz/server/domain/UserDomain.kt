@@ -1,10 +1,12 @@
 package dev.jonaz.server.domain
 
-import dev.jonaz.server.util.exposed.WriteSchema
+import dev.jonaz.server.util.exposed.CreateSchema
 import org.jetbrains.exposed.sql.Table
+import javax.inject.Singleton
 
-@WriteSchema
-object UserDomain : Table("user_list") {
+@CreateSchema
+@Singleton
+class UserDomain : Table("user_list") {
     val id = integer("id").autoIncrement()
 
     val name = varchar("name", 256)

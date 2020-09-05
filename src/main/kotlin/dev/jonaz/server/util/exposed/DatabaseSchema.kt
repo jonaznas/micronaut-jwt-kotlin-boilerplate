@@ -4,9 +4,11 @@ import org.atteo.classindex.ClassIndex
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.transaction
+import javax.inject.Singleton
 
-object DatabaseSchema {
-    private val domains = ClassIndex.getAnnotated(WriteSchema::class.java)
+@Singleton
+class DatabaseSchema {
+    private val domains = ClassIndex.getAnnotated(CreateSchema::class.java)
     private val tables = mutableListOf<Table>()
 
     init {

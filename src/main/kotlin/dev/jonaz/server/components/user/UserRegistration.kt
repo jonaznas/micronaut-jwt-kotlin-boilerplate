@@ -6,9 +6,14 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.transactions.transaction
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object UserRegistration {
-    private val domain = UserDomain
+@Singleton
+class UserRegistration @Inject constructor(
+        private val domain: UserDomain,
+        private val userAccount: UserAccount
+) {
 
     fun validate(username: String, password: String) = when {
         // Check allowed characters in username
@@ -34,7 +39,7 @@ object UserRegistration {
                 return it
         }
 
-        UserAccount.get(username).let {
+        userAccount.get(username).let {
             if (it.isNotEmpty())
                 return Pair(false, "The username is already taken")
         }

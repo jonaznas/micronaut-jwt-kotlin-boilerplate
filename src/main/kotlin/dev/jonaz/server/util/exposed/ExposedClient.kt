@@ -3,9 +3,12 @@ package dev.jonaz.server.util.exposed
 import com.zaxxer.hikari.HikariDataSource
 import org.jetbrains.exposed.sql.Database
 import java.sql.Connection
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ExposedClient(
-        private val dataSource: HikariDataSource
+@Singleton
+class ExposedClient @Inject constructor(
+        private val databaseSchema: DatabaseSchema
 ) {
     companion object {
         private lateinit var connection: Connection
@@ -13,9 +16,8 @@ class ExposedClient(
         fun closeConnection() = connection.close()
     }
 
-    fun connect() = Database.connect(dataSource).let {
+    fun connect(dataSource: HikariDataSource) = Database.connect(dataSource).let {
         connection = dataSource.connection
-        DatabaseSchema.writeSchema()
+        databaseSchema.writeSchema()
     }
-
 }

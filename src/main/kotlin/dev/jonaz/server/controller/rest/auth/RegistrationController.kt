@@ -10,10 +10,13 @@ import io.micronaut.http.annotation.Controller
 import io.micronaut.http.annotation.Post
 import io.micronaut.security.annotation.Secured
 import io.micronaut.security.rules.SecurityRule
+import javax.inject.Inject
 
 @Controller("/registration")
 @Secured(SecurityRule.IS_ANONYMOUS)
-class RegistrationController {
+class RegistrationController @Inject constructor(
+        private val userRegistration: UserRegistration
+) {
 
     @Post
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
@@ -21,7 +24,7 @@ class RegistrationController {
             @Parameter username: String,
             @Parameter password: String
     ): Any {
-        val (success, message) = UserRegistration.usernamePasswordRegistration(username, password)
+        val (success, message) = userRegistration.usernamePasswordRegistration(username, password)
 
         return when (success) {
             true -> HttpStatus.OK

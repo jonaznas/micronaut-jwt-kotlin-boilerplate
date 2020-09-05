@@ -10,10 +10,14 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.FlowableEmitter
 import org.reactivestreams.Publisher
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UserPasswordAuthenticationProvider : AuthenticationProvider {
+class UserPasswordAuthenticationProvider @Inject constructor(
+        private val userRegistration: UserRegistration,
+        private val userAccount: UserAccount
+) : AuthenticationProvider {
 
     override fun authenticate(httpRequest: HttpRequest<*>?, authenticationRequest: AuthenticationRequest<*, *>): Publisher<AuthenticationResponse> {
         return Flowable.create({ emitter: FlowableEmitter<AuthenticationResponse> ->
@@ -21,7 +25,7 @@ class UserPasswordAuthenticationProvider : AuthenticationProvider {
             val secret = authenticationRequest.secret.toString()
 
             // Fail if username or password are not in a valid format
-            UserRegistration.validate(identity, secret).let {
+            userRegistration.validate(identity, secret).let {
                 if (it.first.not()) {
                     emitter.onError(AuthenticationException(AuthenticationFailed()))
                     return@create
@@ -29,7 +33,7 @@ class UserPasswordAuthenticationProvider : AuthenticationProvider {
             }
 
             // Fail if user does not exist or return the user
-            val user = UserAccount.get(identity).let {
+            val user = userAccount.get(identity).let {
                 if (it.size != 1) {
                     emitter.onError(AuthenticationException(AuthenticationFailed()))
                     return@create

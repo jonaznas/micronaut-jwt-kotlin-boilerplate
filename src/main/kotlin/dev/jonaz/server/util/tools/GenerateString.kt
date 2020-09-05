@@ -1,12 +1,14 @@
 package dev.jonaz.server.util.tools
 
 import java.security.SecureRandom
+import javax.inject.Singleton
 
-object GenerateString {
-    private const val letters = "abcdefghijklmnopqrstuvwxyz"
-    private const val uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    private const val numbers = "0123456789"
-    private const val special = "@#=+!£$%&?-.,'*#°^"
+@Singleton
+class GenerateString {
+    private val letters = "abcdefghijklmnopqrstuvwxyz"
+    private val uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    private val numbers = "0123456789"
+    private val special = "@#=+!£$%&?-.,'*#°^"
 
     fun random(isWithLetters: Boolean,
                isWithUppercase: Boolean,
